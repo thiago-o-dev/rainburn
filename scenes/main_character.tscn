@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://u66fjd6pyvrq"]
+
+[ext_resource type="Script" uid="uid://cqhghmosv8s4f" path="res://src/player/player.gd" id="1_ig48j"]
+[ext_resource type="Texture2D" uid="uid://h8buwln6hyye" path="res://icon.svg" id="2_tqm6u"]
+[ext_resource type="Script" uid="uid://h0bke86vtuo3" path="res://src/player/player_state_machine.gd" id="3_k0aba"]
+[ext_resource type="Script" uid="uid://ddljxwr6cfk2q" path="res://src/player/states/idle.gd" id="4_ogw1n"]
+[ext_resource type="Script" uid="uid://csrw2r8efcrbg" path="res://src/player/states/move.gd" id="5_0d0nc"]
+[ext_resource type="Script" uid="uid://uvmcesu2atme" path="res://src/components/player_actions_component.gd" id="6_ogw1n"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e6tc2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_tqm6u")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walk_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_tqm6u")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k0aba"]
+radius = 63.15061
+
+[node name="Player" type="CharacterBody2D" unique_id=1684079000]
+collision_mask = 7
+motion_mode = 1
+script = ExtResource("1_ig48j")
+
+[node name="CharacterSprite2D" type="AnimatedSprite2D" parent="." unique_id=236852795]
+sprite_frames = SubResource("SpriteFrames_e6tc2")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2082610997]
+shape = SubResource("CircleShape2D_k0aba")
+
+[node name="PlayerStateMachine" type="Node" parent="." unique_id=171687954 node_paths=PackedStringArray("starting_state", "current_state")]
+script = ExtResource("3_k0aba")
+starting_state = NodePath("Idle")
+current_state = NodePath("Idle")
+metadata/_custom_type_script = "uid://sksjd0ctv8vi"
+
+[node name="Idle" type="Node" parent="PlayerStateMachine" unique_id=2131145871 node_paths=PackedStringArray("move_state")]
+script = ExtResource("4_ogw1n")
+move_state = NodePath("../Move")
+animation_name = "idle"
+
+[node name="Move" type="Node" parent="PlayerStateMachine" unique_id=1615475413 node_paths=PackedStringArray("idle_state")]
+script = ExtResource("5_0d0nc")
+idle_state = NodePath("../Idle")
+animation_name = "idle"
+
+[node name="PlayerActionsComponent" type="Node" parent="." unique_id=1574762467]
+script = ExtResource("6_ogw1n")
+metadata/_custom_type_script = "uid://uvmcesu2atme"
