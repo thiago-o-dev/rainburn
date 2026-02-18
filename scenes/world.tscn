@@ -1,7 +1,15 @@
 [gd_scene format=3 uid="uid://bpke1gqngxpw7"]
 
 [ext_resource type="PackedScene" uid="uid://u66fjd6pyvrq" path="res://scenes/main_character.tscn" id="1_nnsk1"]
+[ext_resource type="PackedScene" uid="uid://clbx78kasxqqh" path="res://scenes/maps/forest.tscn" id="2_rwgxs"]
+[ext_resource type="PackedScene" uid="uid://ssn3q3pir3iv" path="res://scenes/interactable_object.tscn" id="3_4wyf3"]
 
 [node name="World" type="Node2D" unique_id=2024304921]
 
+[node name="Forest" parent="." unique_id=282991705 instance=ExtResource("2_rwgxs")]
+position = Vector2(171, 72)
+
 [node name="MainCharacter" parent="." unique_id=1684079000 instance=ExtResource("1_nnsk1")]
+
+[node name="InteractableObject" parent="." unique_id=1306836953 instance=ExtResource("3_4wyf3")]
+position = Vector2(-439, 25)

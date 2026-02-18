@@ -1,4 +1,13 @@
 extends FiniteStateMachine
+class_name PlayerStateMachine
+
+@export var frozen_state : State
+
+func request_freeze() -> void:
+	change_state(frozen_state)
+
+func request_unfreeze() -> void:
+	change_state(starting_state)
 
 func inject_dependencies(
 	parent: CharacterBody2D, 

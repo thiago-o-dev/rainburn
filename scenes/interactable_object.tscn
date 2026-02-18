@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://ssn3q3pir3iv"]
+
+[ext_resource type="Texture2D" uid="uid://h8buwln6hyye" path="res://icon.svg" id="1_1cvqn"]
+[ext_resource type="Script" uid="uid://dw86m4eugpr0t" path="res://src/interactable_object.gd" id="1_1t2qe"]
+[ext_resource type="Script" uid="uid://cpfskgo3ang1v" path="res://src/components/interactable_object_component.gd" id="2_1t2qe"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1cvqn"]
+radius = 171.07309
+
+[node name="InteractableObject" type="Node2D" unique_id=1306836953 node_paths=PackedStringArray("interactable_component")]
+script = ExtResource("1_1t2qe")
+interactable_component = NodePath("InteractableComponent2")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1995311565]
+texture = ExtResource("1_1cvqn")
+
+[node name="InteractableComponent2" type="Area2D" parent="." unique_id=135069556 node_paths=PackedStringArray("label")]
+script = ExtResource("2_1t2qe")
+label = NodePath("PanelPopup/Panel/Label")
+metadata/_custom_type_script = "uid://cpfskgo3ang1v"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableComponent2" unique_id=1306122703]
+shape = SubResource("CircleShape2D_1cvqn")
+
+[node name="PanelPopup" type="Control" parent="InteractableComponent2" unique_id=1853931044]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 46.0
+
+[node name="Panel" type="Panel" parent="InteractableComponent2/PanelPopup" unique_id=1765171744]
+layout_mode = 1
+offset_right = 200.0
+offset_bottom = 45.0
+tooltip_text = "Click to interact"
+
+[node name="Panel2" type="TextureButton" parent="InteractableComponent2/PanelPopup/Panel" unique_id=1771298144]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = 42.0
+offset_bottom = 43.0
+
+[node name="Key" type="Label" parent="InteractableComponent2/PanelPopup/Panel/Panel2" unique_id=646162196]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "E"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="InteractableComponent2/PanelPopup/Panel" unique_id=1303184996]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 45.0
+offset_right = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Interact"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="InteractableComponent2" to="InteractableComponent2" method="_on_body_entered"]
+[connection signal="body_exited" from="InteractableComponent2" to="InteractableComponent2" method="_on_body_exited"]

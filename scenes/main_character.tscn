@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://h0bke86vtuo3" path="res://src/player/player_state_machine.gd" id="3_k0aba"]
 [ext_resource type="Script" uid="uid://ddljxwr6cfk2q" path="res://src/player/states/idle.gd" id="4_ogw1n"]
 [ext_resource type="Script" uid="uid://csrw2r8efcrbg" path="res://src/player/states/move.gd" id="5_0d0nc"]
+[ext_resource type="Script" uid="uid://dbl7r313o82tt" path="res://src/player/states/frozen.gd" id="6_0d0nc"]
 [ext_resource type="Script" uid="uid://uvmcesu2atme" path="res://src/components/player_actions_component.gd" id="6_ogw1n"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_e6tc2"]
@@ -56,8 +57,9 @@ animation = &"idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2082610997]
 shape = SubResource("CircleShape2D_k0aba")
 
-[node name="PlayerStateMachine" type="Node" parent="." unique_id=171687954 node_paths=PackedStringArray("starting_state", "current_state")]
+[node name="PlayerStateMachine" type="Node" parent="." unique_id=171687954 node_paths=PackedStringArray("frozen_state", "starting_state", "current_state")]
 script = ExtResource("3_k0aba")
+frozen_state = NodePath("Frozen")
 starting_state = NodePath("Idle")
 current_state = NodePath("Idle")
 metadata/_custom_type_script = "uid://sksjd0ctv8vi"
@@ -72,6 +74,13 @@ script = ExtResource("5_0d0nc")
 idle_state = NodePath("../Idle")
 animation_name = "idle"
 
+[node name="Frozen" type="Node" parent="PlayerStateMachine" unique_id=875398383]
+script = ExtResource("6_0d0nc")
+animation_name = "idle"
+
 [node name="PlayerActionsComponent" type="Node" parent="." unique_id=1574762467]
 script = ExtResource("6_ogw1n")
 metadata/_custom_type_script = "uid://uvmcesu2atme"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1132587511]
+position_smoothing_enabled = true
