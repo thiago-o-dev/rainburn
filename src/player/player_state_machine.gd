@@ -14,18 +14,16 @@ func inject_dependencies(
 	animations: AnimatedSprite2D, 
 	player_actions_component: PlayerActionsComponent
 	) -> void:
+		
+	var dependencies := {
+		"parent": parent,
+		"animations": animations,
+		"player_actions_component": player_actions_component
+	}
+	
 	for child in get_children():
-		if 'parent' in child:
-			child.parent = parent
-		else:
-			print("warn: " + child.name + "does not have 'parent'")
-			
-		if 'animations' in child:
-			child.animations = animations
-		else:
-			print("warn: " + child.name + "does not have 'animations'")
-			
-		if 'player_actions_component' in child:
-			child.player_actions_component = player_actions_component
-		else:
-			print("warn: " + child.name + "does not have 'player_actions_component'")
+		for key in dependencies.keys():
+			if key in child:
+				child.set(key, dependencies[key])
+			else:
+				push_warning(child.name + " state does not have '" + key + "'")

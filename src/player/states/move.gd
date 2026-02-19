@@ -12,18 +12,19 @@ var player_actions_component : PlayerActionsComponent
 var parent: CharacterBody2D
 
 func process_input(_event: InputEvent) -> State:
-	if Input.is_key_pressed(KEY_SHIFT):
-		current_speed = run_speed
-		return null
-	
 	if get_movement_input() == Vector2.ZERO:
 		return idle_state
-		
-	current_speed = walk_speed
+	
 	return null
 
 func process_frame(delta: float) -> State:
 	var direction = get_movement_input()
+	
+	if Input.is_key_pressed(KEY_SHIFT):
+		current_speed = run_speed
+	else:
+		current_speed = walk_speed
+	
 	var movement = direction * current_speed
 	
 	#animations.flip_h = movement < 0

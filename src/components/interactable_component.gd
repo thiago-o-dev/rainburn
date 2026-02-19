@@ -2,22 +2,26 @@ extends Area2D
 class_name InteractableComponent
 
 @export var tooltip : Control
-@export var label : Label
+@export var debug_label : Label
 
 @export_category("Controls")
 @export var instant : bool = false
 @export var freeze_player = true
+@export var debug_mode : bool = false
 
 var is_interacting = false
 var player_on_area : bool = false
 var player_body : PlayerBody
 
 signal interacted
-signal ended_interaction
+signal interaction_ended
 
 func _ready():
 	interacted.connect(on_interacted)
-	ended_interaction.connect(on_ended_interaction)
+	interaction_ended.connect(on_interaction_ended)
+	
+	if debug_label:
+		debug_label.visible = debug_mode
 
 func on_interacted():
 	debug("interacting")
@@ -27,7 +31,7 @@ func on_interacted():
 	
 	is_interacting = true
 
-func on_ended_interaction():
+func on_interaction_ended():
 	debug("interaction ended")
 	
 	if freeze_player:
@@ -35,7 +39,7 @@ func on_ended_interaction():
 	
 	is_interacting = false
 
-func _input(event):
+func _unhandled_input(event):
 	if not event.is_action_released("Interact"):
 		return
 	if not player_on_area:
@@ -60,4 +64,7 @@ func _on_body_exited(body):
 	#hide tooltip
 
 func debug(string : String):
-	label.text = string
+	if !debug_mode:
+		return
+	
+	debug_label.text = string

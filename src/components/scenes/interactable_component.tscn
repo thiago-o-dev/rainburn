@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://yagn423x6bej"]
+
+[ext_resource type="Script" uid="uid://cpfskgo3ang1v" path="res://src/components/interactable_component.gd" id="1_wx4ms"]
+
+[node name="InteractableComponent" type="Area2D" unique_id=709178463 node_paths=PackedStringArray("tooltip", "debug_label")]
+collision_layer = 0
+script = ExtResource("1_wx4ms")
+tooltip = NodePath("InteractableTooltip")
+debug_label = NodePath("InteractableTooltip/Panel/Debug")
+debug_mode = true
+metadata/_custom_type_script = "uid://cpfskgo3ang1v"
+
+[node name="InteractableTooltip" type="Control" parent="." unique_id=1863059307]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 46.0
+
+[node name="Panel" type="Panel" parent="InteractableTooltip" unique_id=1048763415]
+layout_mode = 1
+offset_right = 200.0
+offset_bottom = 45.0
+tooltip_text = "Click to interact"
+
+[node name="Panel2" type="TextureButton" parent="InteractableTooltip/Panel" unique_id=279877803]
+layout_mode = 0
+offset_left = 2.5
+offset_top = 2.5
+offset_right = 42.5
+offset_bottom = 42.5
+
+[node name="Key" type="Label" parent="InteractableTooltip/Panel/Panel2" unique_id=1687644112]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "E"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="InteractableTooltip/Panel" unique_id=1822764647]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 45.0
+offset_right = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Interact"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Debug" type="Label" parent="InteractableTooltip/Panel" unique_id=275170197]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 45.0
+offset_right = 145.0
+offset_bottom = -22.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+text = "Interact"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
