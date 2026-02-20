@@ -30,6 +30,7 @@ func on_interacted():
 		player_body.request_freeze()
 	
 	is_interacting = true
+	tween_fade_tooltip(false)
 
 func on_interaction_ended():
 	debug("interaction ended")
@@ -38,6 +39,8 @@ func on_interaction_ended():
 		player_body.request_unfreeze()
 	
 	is_interacting = false
+	tween_fade_tooltip(true if player_body else false)
+	
 
 func _unhandled_input(event):
 	if not event.is_action_released("Interact"):
@@ -53,14 +56,36 @@ func _on_body_entered(body : PlayerBody):
 	player_on_area = true
 	player_body = body
 	debug("player entered")
+	
+	tween_fade_tooltip(true)
+	
 	if instant:
 		is_interacting = true
 		interacted.emit()
-	#show tooltip
+		
+
+var fading_tween : Tween = null
+func tween_fade_tooltip(state: bool):
+	if fading_tween:
+		fading_tween.kill()
+	
+	fading_tween = create_tween()
+	#fading_tween.set_trans(Tween.TRANS_SINE)
+	fading_tween.set_ease(Tween.EASE_IN_OUT)
+	var target_alpha := 1.0 if state else 0.0
+	
+	fading_tween.tween_property(
+		tooltip, 
+		"modulate:a", 
+		target_alpha, 
+		0.5
+	)
 
 func _on_body_exited(body):
 	player_on_area = false
+	player_body = null
 	debug("player left")
+	tween_fade_tooltip(false)
 	#hide tooltip
 
 func debug(string : String):
@@ -68,3 +93,10 @@ func debug(string : String):
 		return
 	
 	debug_label.text = string
+
+func _process(delta: float) -> void:
+	if not (visible and player_body):
+		return
+	
+	tooltip.position = (player_body.global_position - global_position)/2
+	tooltip.position.x -= tooltip.size.x/2
