@@ -13,6 +13,9 @@ var is_interacting = false
 var player_on_area : bool = false
 var player_body : PlayerBody
 
+var tooltip_follow_speed : float = 2.0
+@onready var tooltip_starting_position : Vector2 = tooltip.position
+
 signal interacted
 signal interaction_ended
 
@@ -22,6 +25,8 @@ func _ready():
 	
 	if debug_label:
 		debug_label.visible = debug_mode
+	
+	tooltip.modulate.a = 0
 
 func on_interacted():
 	debug("interacting")
@@ -65,21 +70,46 @@ func _on_body_entered(body : PlayerBody):
 		
 
 var fading_tween : Tween = null
+var scaling_tween : Tween = null
 func tween_fade_tooltip(state: bool):
 	if fading_tween:
 		fading_tween.kill()
+	if scaling_tween:
+		scaling_tween.kill()
 	
+	var target_value := 1.0 if state else 0.0
 	fading_tween = create_tween()
-	#fading_tween.set_trans(Tween.TRANS_SINE)
+	fading_tween.set_trans(Tween.TRANS_SINE)
 	fading_tween.set_ease(Tween.EASE_IN_OUT)
-	var target_alpha := 1.0 if state else 0.0
 	
 	fading_tween.tween_property(
 		tooltip, 
 		"modulate:a", 
-		target_alpha, 
-		0.5
+		target_value, 
+		0.2
 	)
+	
+	scaling_tween = create_tween()
+	var speed = .5
+	if state:
+		scaling_tween.set_trans(Tween.TRANS_ELASTIC)
+		scaling_tween.set_ease(Tween.EASE_OUT)
+	else:
+		scaling_tween.set_trans(Tween.TRANS_SINE)
+		scaling_tween.set_ease(Tween.EASE_IN_OUT)
+		speed = .2
+	
+	scaling_tween.tween_property(
+		tooltip, 
+		"scale:x", 
+		target_value, 
+		speed
+	)
+	if !state:
+		fading_tween.finished.connect(on_fading_tween_end)
+
+func on_fading_tween_end():
+	tooltip.position = tooltip_starting_position
 
 func _on_body_exited(body):
 	player_on_area = false
@@ -98,5 +128,7 @@ func _process(delta: float) -> void:
 	if not (visible and player_body):
 		return
 	
-	tooltip.position = (player_body.global_position - global_position)/2
-	tooltip.position.x -= tooltip.size.x/2
+	var target_position := (player_body.global_position - global_position) / 2
+	target_position.x -= tooltip.size.x / 2
+	
+	tooltip.position = tooltip.position.lerp(target_position, delta * tooltip_follow_speed)
