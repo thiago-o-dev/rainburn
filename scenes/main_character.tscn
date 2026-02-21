@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://csrw2r8efcrbg" path="res://src/player/states/move.gd" id="5_0d0nc"]
 [ext_resource type="Script" uid="uid://dbl7r313o82tt" path="res://src/player/states/frozen.gd" id="6_0d0nc"]
 [ext_resource type="Script" uid="uid://uvmcesu2atme" path="res://src/components/player_actions_component.gd" id="6_ogw1n"]
+[ext_resource type="Script" uid="uid://dpi3b03q2u4wn" path="res://src/components/CameraPlayerComponent.gd" id="8_d3a2h"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_e6tc2"]
 animations = [{
@@ -84,3 +85,4 @@ metadata/_custom_type_script = "uid://uvmcesu2atme"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1132587511]
 position_smoothing_enabled = true
+script = ExtResource("8_d3a2h")

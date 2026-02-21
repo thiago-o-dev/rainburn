@@ -27,6 +27,7 @@ func _ready():
 		debug_label.visible = debug_mode
 	
 	tooltip.modulate.a = 0
+	tooltip.scale.x = 0
 
 func on_interacted():
 	debug("interacting")
@@ -111,7 +112,7 @@ func tween_fade_tooltip(state: bool):
 func on_fading_tween_end():
 	tooltip.position = tooltip_starting_position
 
-func _on_body_exited(body):
+func _on_body_exited(_body):
 	player_on_area = false
 	player_body = null
 	debug("player left")

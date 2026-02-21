@@ -8,6 +8,7 @@
 [node name="World" type="Node2D" unique_id=2024304921]
 
 [node name="Forest" parent="." unique_id=282991705 instance=ExtResource("2_rwgxs")]
+texture_filter = 1
 position = Vector2(171, 72)
 
 [node name="MainCharacter" parent="." unique_id=1684079000 instance=ExtResource("1_nnsk1")]

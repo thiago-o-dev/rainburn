@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://daawkqumxnnfa"]
+
+[ext_resource type="Script" uid="uid://dw86m4eugpr0t" path="res://src/interactable_object.gd" id="1_6qr7h"]
+[ext_resource type="Texture2D" uid="uid://h8buwln6hyye" path="res://icon.svg" id="2_hmax4"]
+[ext_resource type="PackedScene" uid="uid://yagn423x6bej" path="res://src/components/scenes/interactable_component.tscn" id="3_2w5wj"]
+[ext_resource type="Script" uid="uid://csd7ve5ap3nvt" path="res://src/components/dialogue_component.gd" id="4_rblsp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ieyjc"]
+radius = 183.3303
+
+[node name="InteractableCutscene" type="Node2D" unique_id=1306836953 node_paths=PackedStringArray("interactable_component", "dialogue_component")]
+script = ExtResource("1_6qr7h")
+interactable_component = NodePath("InteractableComponent")
+dialogue_component = NodePath("DialogueComponent")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1995311565]
+texture = ExtResource("2_hmax4")
+
+[node name="InteractableComponent" parent="." unique_id=709178463 instance=ExtResource("3_2w5wj")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableComponent" unique_id=1504761671]
+shape = SubResource("CircleShape2D_ieyjc")
+
+[node name="DialogueComponent" type="Node" parent="." unique_id=1757251057]
+script = ExtResource("4_rblsp")
+dialog_key = "object"
+metadata/_custom_type_script = "uid://csd7ve5ap3nvt"
